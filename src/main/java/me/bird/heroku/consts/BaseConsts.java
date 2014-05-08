@@ -22,4 +22,8 @@ public class BaseConsts {
 	
 	public final static int WEIXIN_NEWS_MAX_ITEM = 10;
 	
+	public static String APP_KEY_QINIU = "X4rXz25vYNuH5escSXCU2rxK_v-Zilv5lfLwfilH";
+	
+	public static String SECRET_KEY_QINIU = "GD6qojtiZExnhFuuYcHONLzs7xy3VUUcvX4Qzgm6";
+	
 }

@@ -21,7 +21,7 @@ public class HttpUtil {
 
 	public String getContent(String url, String encoding) throws Exception {
 		HttpURLConnection connection = this.getConnection(url, "GET");
-		return this.getResponseAndClose(connection,encoding);
+		return this.getResponseAndClose(connection, encoding);
 	}
 
 	public String postContent(String url, Map<String, String> headerMap, Map<String, String> paramMap, String encoding) throws Exception {
@@ -36,7 +36,7 @@ public class HttpUtil {
 		params = params.deleteCharAt(params.length() - 1);
 		this.writeBytesToStream(connection.getOutputStream(), params.toString().getBytes(BaseConsts.BASE_CHARSET));
 		connection.connect();
-		return this.getResponseAndClose(connection,encoding);
+		return this.getResponseAndClose(connection, encoding);
 	}
 
 	private HttpURLConnection getConnection(String url, String method) throws Exception {
@@ -64,7 +64,16 @@ public class HttpUtil {
 		dataOut.flush();
 		dataOut.close();
 		connection.connect();
-		return this.getResponseAndClose(connection,BaseConsts.BASE_ENCODING);
+		return this.getResponseAndClose(connection, BaseConsts.BASE_ENCODING);
+	}
+
+	public String postImage(String url, byte[] bytes, String key) throws Exception {
+		HttpURLConnection connection = this.getConnection(url, "POST");
+		connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary + crlf + "--" + boundary + crlf + crlf);
+		DataOutputStream dataOut = new DataOutputStream(connection.getOutputStream());
+		dataOut.writeBytes(this.getContentDisposition("key", key));
+//		dataOut.writeBytes(this.getContentDisposition("token", value))
+		return "";
 	}
 
 	private void writeBytesToStream(OutputStream outputStream, byte[] bytes) throws Exception {
@@ -73,9 +82,9 @@ public class HttpUtil {
 		dataOutputStream.flush();
 		dataOutputStream.close();
 	}
-	
-	private String getResponseAndClose(HttpURLConnection connection,String encoding) throws IOException{
-		String result = IOUtils.toString(connection.getInputStream(),encoding);
+
+	private String getResponseAndClose(HttpURLConnection connection, String encoding) throws IOException {
+		String result = IOUtils.toString(connection.getInputStream(), encoding);
 		connection.disconnect();
 		return result;
 	}
@@ -86,5 +95,13 @@ public class HttpUtil {
 		builder.append("Content-Disposition: form-data;name=\"myFile\";filename=\"" + fileName + "\"").append(crlf);
 		builder.append("Content-Type:application/octet-stream").append(crlf).append(crlf);
 		return builder.toString();
+	}
+
+	private String getContentDisposition(String key, String value) {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("Content-Disposition: form-data; name=\"").append(key).append("\"").append(crlf);
+		buffer.append(value).append(crlf);
+		buffer.append("--").append(boundary).append(crlf).append(crlf);
+		return buffer.toString();
 	}
 }
