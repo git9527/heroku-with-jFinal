@@ -3,9 +3,8 @@ package me.bird.heroku.controller;
 import java.util.Arrays;
 
 import me.bird.heroku.consts.BaseConsts;
+import me.bird.heroku.encode.DigestUtil;
 import me.bird.heroku.utils.StringUtils;
-
-import org.apache.commons.codec.digest.DigestUtils;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -34,7 +33,7 @@ public class WeixinController extends Controller {
 			sb.append(ArrTmp[i]);
 		}
 		// 对排序后的字符串进行SHA-1加密
-		super.renderText(DigestUtils.shaHex(sb.toString()));
+		super.renderText(DigestUtil.sha1Hex(sb.toString()));
 	}
 
 	public void save() {

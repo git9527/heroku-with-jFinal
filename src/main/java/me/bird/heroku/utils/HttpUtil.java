@@ -1,7 +1,9 @@
 package me.bird.heroku.utils;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -31,10 +33,10 @@ public class HttpUtil {
 		}
 		StringBuffer params = new StringBuffer();
 		for (String paramkey : paramMap.keySet()) {
-			params.append(paramkey).append("=").append(URLEncoder.encode(paramMap.get(paramkey), BaseConsts.BASE_ENCODING)).append("&");
+			params.append(paramkey).append("=").append(URLEncoder.encode(paramMap.get(paramkey), BaseConsts.ENCODING)).append("&");
 		}
 		params = params.deleteCharAt(params.length() - 1);
-		this.writeBytesToStream(connection.getOutputStream(), params.toString().getBytes(BaseConsts.BASE_CHARSET));
+		this.writeBytesToStream(connection.getOutputStream(), params.toString().getBytes(BaseConsts.CHARSET));
 		connection.connect();
 		return this.getResponseAndClose(connection, encoding);
 	}
@@ -64,16 +66,28 @@ public class HttpUtil {
 		dataOut.flush();
 		dataOut.close();
 		connection.connect();
-		return this.getResponseAndClose(connection, BaseConsts.BASE_ENCODING);
+		return this.getResponseAndClose(connection, BaseConsts.ENCODING);
 	}
 
 	public String postImage(String url, byte[] bytes, String key) throws Exception {
 		HttpURLConnection connection = this.getConnection(url, "POST");
-		connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary + crlf + "--" + boundary + crlf + crlf);
+		String fileName = RandomUtil.random(15);
+		connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+		connection.setRequestProperty("Host", "up.qiniu.com");
+		connection.setRequestProperty("Content-Length", bytes.length+"");
 		DataOutputStream dataOut = new DataOutputStream(connection.getOutputStream());
+		dataOut.writeBytes(crlf + crlf + "--" + boundary + crlf);
+		dataOut.writeBytes(this.getContentDisposition("token", QiNiuUtil.getUploadToken(fileName)));
 		dataOut.writeBytes(this.getContentDisposition("key", key));
-//		dataOut.writeBytes(this.getContentDisposition("token", value))
-		return "";
+		dataOut.writeBytes("Content-Disposition: form-data;name=\"file\";filename=\"" + fileName + "\"" + crlf);
+		dataOut.writeBytes("Content-Type:application/octet-stream" + crlf);
+		dataOut.writeBytes("Content-Transfer-Encoding: binary");
+		//		dataOut.write(bytes);
+		dataOut.writeBytes(crlf + "--" + boundary + "--" + crlf);
+		dataOut.flush();
+		dataOut.close();
+		connection.connect();
+		return this.getResponseAndClose(connection, BaseConsts.ENCODING);
 	}
 
 	private void writeBytesToStream(OutputStream outputStream, byte[] bytes) throws Exception {
@@ -104,4 +118,5 @@ public class HttpUtil {
 		buffer.append("--").append(boundary).append(crlf).append(crlf);
 		return buffer.toString();
 	}
+	
 }

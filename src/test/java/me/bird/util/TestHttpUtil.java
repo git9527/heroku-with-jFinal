@@ -1,11 +1,13 @@
 package me.bird.util;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import me.bird.heroku.consts.BaseConsts;
 import me.bird.heroku.utils.HttpUtil;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,7 +17,7 @@ public class TestHttpUtil {
 
 	@Test
 	public void test_get() throws Exception{
-		String result = httpUtil.getContent("http://www.renren.com", BaseConsts.BASE_ENCODING);
+		String result = httpUtil.getContent("http://www.renren.com", BaseConsts.ENCODING);
 		Assert.assertNotNull(result);
 	}
 	
@@ -29,7 +31,17 @@ public class TestHttpUtil {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("bookid", "3195");
 		paramMap.put("chapterid", "2896318");
-		String result = httpUtil.postContent(url, headerMap, paramMap, BaseConsts.BASE_ENCODING);
+		String result = httpUtil.postContent(url, headerMap, paramMap, BaseConsts.ENCODING);
 		Assert.assertTrue(result.startsWith("﻿<p>要查这个"));
+	}
+	
+	@Test
+	public void test_post_image() throws Exception{
+		String url = "http://up.qiniu.com";
+		String path = this.getClass().getClassLoader().getResource("").getPath();
+		path = path + "/../../src/main/webapp/resources/image/disney.png";
+		File file = new File(path);
+		byte[] data = FileUtils.readFileToByteArray(file);
+		System.out.println(httpUtil.postImage(url, data, "test.png"));
 	}
 }

@@ -40,7 +40,7 @@ public class CatchTask implements Runnable {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("bookid", chapterInfo.getBookId() + "");
 		paramMap.put("chapterid", chapterInfo.getChapterId() + "");
-		String result = new HttpUtil().postContent(this.getContentUrl(), headerMap, paramMap, BaseConsts.BASE_ENCODING);
+		String result = new HttpUtil().postContent(this.getContentUrl(), headerMap, paramMap, BaseConsts.ENCODING);
 		return StringUtils.subStringBeforeLast(result, "看无广告");
 	}
 
