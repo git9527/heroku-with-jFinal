@@ -1,0 +1,90 @@
+package me.bird.heroku.utils;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.Proxy.Type;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Map;
+
+import me.bird.heroku.consts.BaseConsts;
+
+public class HttpUtil {
+
+	private String crlf = "\r\n";
+
+	private String boundary = "-------" + Long.toHexString(System.currentTimeMillis());
+
+	public String getContent(String url, String encoding) throws Exception {
+		HttpURLConnection connection = this.getConnection(url, "GET");
+		return this.getResponseAndClose(connection,encoding);
+	}
+
+	public String postContent(String url, Map<String, String> headerMap, Map<String, String> paramMap, String encoding) throws Exception {
+		HttpURLConnection connection = this.getConnection(url, "POST");
+		for (String key : headerMap.keySet()) {
+			connection.addRequestProperty(key, headerMap.get(key));
+		}
+		StringBuffer params = new StringBuffer();
+		for (String paramkey : paramMap.keySet()) {
+			params.append(paramkey).append("=").append(URLEncoder.encode(paramMap.get(paramkey), BaseConsts.BASE_ENCODING)).append("&");
+		}
+		params = params.deleteCharAt(params.length() - 1);
+		this.writeBytesToStream(connection.getOutputStream(), params.toString().getBytes(BaseConsts.BASE_CHARSET));
+		connection.connect();
+		return this.getResponseAndClose(connection,encoding);
+	}
+
+	private HttpURLConnection getConnection(String url, String method) throws Exception {
+		URL realUrl = new URL(url);
+		HttpURLConnection connection;
+		if (SystemUtils.needProxy()) {
+			Proxy proxy = new Proxy(Type.HTTP, new InetSocketAddress("172.17.18.84", 8080));
+			connection = (HttpURLConnection) realUrl.openConnection(proxy);
+		} else {
+			connection = (HttpURLConnection) realUrl.openConnection();
+		}
+		connection.setConnectTimeout(2000);
+		connection.setDoOutput(true);
+		connection.setRequestMethod(method);
+		return connection;
+	}
+
+	public String upload(String url, byte[] bytes) throws Exception {
+		HttpURLConnection connection = this.getConnection(url, "POST");
+		connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+		DataOutputStream dataOut = new DataOutputStream(connection.getOutputStream());
+		dataOut.writeBytes(this.getDataContent(RandomUtil.random(5) + ".jpg"));
+		dataOut.write(bytes);
+		dataOut.writeBytes(crlf + "--" + boundary + "--" + crlf);// 定义最后数据分隔线
+		dataOut.flush();
+		dataOut.close();
+		connection.connect();
+		return this.getResponseAndClose(connection,BaseConsts.BASE_ENCODING);
+	}
+
+	private void writeBytesToStream(OutputStream outputStream, byte[] bytes) throws Exception {
+		DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+		dataOutputStream.write(bytes);
+		dataOutputStream.flush();
+		dataOutputStream.close();
+	}
+	
+	private String getResponseAndClose(HttpURLConnection connection,String encoding) throws IOException{
+		String result = IOUtils.toString(connection.getInputStream(),encoding);
+		connection.disconnect();
+		return result;
+	}
+
+	private String getDataContent(String fileName) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("--").append(boundary).append(crlf);
+		builder.append("Content-Disposition: form-data;name=\"myFile\";filename=\"" + fileName + "\"").append(crlf);
+		builder.append("Content-Type:application/octet-stream").append(crlf).append(crlf);
+		return builder.toString();
+	}
+}

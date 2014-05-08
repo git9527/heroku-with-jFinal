@@ -1,0 +1,79 @@
+.title {
+    color: #DD0000;
+    font-family: 微软雅黑,黑体;
+    font-size: 28px;
+    line-height: 50px;
+    text-align: center;
+}
+
+#body{
+	width:80%;
+	margin-right: auto; 
+	margin-left: auto;
+}
+
+#tran a{
+	background: url("../image/feisu.png") no-repeat scroll -57px -426px rgba(0, 0, 0, 0);
+	 display: block;
+    float: left;
+    height: 23px;
+    line-height: 23px;
+    margin: 0 5px;
+    padding: 4px 0 3px;
+    text-align: center;
+    width: 92px;
+}
+
+#tran {
+	font-size: 12px;
+    padding: 10px 0 20px 417px;
+}
+
+.clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+.content{
+	padding: 10px 40px 20px ;
+}
+
+
+.content p {
+    margin: 1em 0;
+    text-indent: 2em;
+    white-space: pre-wrap;
+    word-break: normal;
+    word-wrap: normal;
+}
+
+.content p:after {
+    text-indent: 2em;
+    clear: both;
+    content: "​";
+    display: block;
+    height: 0;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+}
+
+.chapterlist li {
+    border-bottom: 1px dashed #DFDFDF;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    padding: 0 10px 0 15px;
+}
+
+.chapterlist li a {
+    display: block;
+    width: 305px;
+}

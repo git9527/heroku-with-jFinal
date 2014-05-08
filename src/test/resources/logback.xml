@@ -1,0 +1,21 @@
+<configuration>
+	<property name="CHARSET" value="UTF-8" />
+	<property name="LOG_DIR" value="${user.dir}/applog/heroku" />
+	<property name="LOG_FORMAT" value="%date [%thread] %-5level %logger - %msg%n%rEx" />
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder><pattern>[%thread] %level (%F:%L\) -%msg%n</pattern><charset>${CHARSET}</charset></encoder>
+	</appender>
+	
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_DIR}/daily.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_DIR}/heroku.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+		</rollingPolicy>
+		<encoder><pattern>${LOG_FORMAT}</pattern><charset>${CHARSET}</charset></encoder>
+	</appender>
+	
+	<root level="debug">
+		<appender-ref ref="stdout" />
+	</root>
+</configuration>
