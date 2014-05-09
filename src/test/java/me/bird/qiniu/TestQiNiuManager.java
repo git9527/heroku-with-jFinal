@@ -16,4 +16,14 @@ public class TestQiNiuManager {
 		System.out.println(qiNiuManager.postData(data, "a/b/3.png"));
 	}
 	
+	@Test
+	public void test_access_token() throws Exception{
+		System.out.println(qiNiuManager.makeAccessToken("/stat/", "a-b-3.png"));
+	}
+	
+	@Test
+	public void test_get_stat() throws Exception{
+		System.out.println(qiNiuManager.getResourceStat("a-b-3.png"));
+	}
+	
 }

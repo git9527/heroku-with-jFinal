@@ -16,6 +16,17 @@ public class HttpUtil {
 		HttpURLConnection connection = this.getConnection(url, "GET");
 		return this.getResponseAndClose(connection, encoding);
 	}
+	
+	public String getContent(String url, Map<String, String> headerMap,String encoding) throws Exception{
+		HttpURLConnection connection = this.getConnection(url, "GET", headerMap);
+		return this.getResponseAndClose(connection, encoding);
+	}
+	
+	public String postContent(String url, Map<String, String> headerMap, String encoding) throws Exception{
+		HttpURLConnection connection = this.getConnection(url, "POST",headerMap);
+		connection.connect();
+		return this.getResponseAndClose(connection, encoding);
+	}
 
 	public String postContent(String url, Map<String, String> headerMap, byte[] content, String encoding) throws Exception {
 		HttpURLConnection connection = this.getConnection(url, "POST", headerMap);
