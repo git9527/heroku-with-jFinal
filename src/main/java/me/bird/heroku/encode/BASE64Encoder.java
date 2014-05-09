@@ -53,4 +53,8 @@ public class BASE64Encoder {
 		}
 		return to.toString();
 	}
+	
+	public static String encodeUrlSafe(byte[] bytes){
+		return encode(bytes).replace("/", "_").replace("+", "-");
+	}
 }
