@@ -1,6 +1,8 @@
-package me.bird.heroku.manager;
+package me.bird.heroku.qiniu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.bird.heroku.consts.BaseConsts;
@@ -38,15 +40,19 @@ public class QiNiuManager {
 	public String getEncodedKey(String key){
 		return BASE64Encoder.encodeUrlSafe((BaseConsts.QINIU_SPACE_NAME + ":" + key).getBytes());
 	}
+	
+	public List<ResourceInfo> getBatchStat(List<String> key) throws Exception{
+		return new ArrayList<>();
+	}
 
-	public String getResourceStat(String key) throws Exception {
+	public String getSingleStat(String key) throws Exception {
 		String completeUrl = STAT_HOST + "/stat/" + this.getEncodedKey(key);
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put("User-Agent", "qiniu java-sdk v6.0.0");
 		headerMap.put("Authorization", "QBox " + this.makeAccessToken("/stat/", key));
 		return new HttpUtil().getContent(completeUrl, headerMap, BaseConsts.ENCODING);
 	}
-
+	
 	public String postData(byte[] data, String url) throws Exception {
 		Map<String, String> headerMap = new HashMap<String, String>();
 		String boundary = "-------" + Long.toHexString(System.currentTimeMillis());

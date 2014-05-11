@@ -1,6 +1,6 @@
 package me.bird.qiniu;
 
-import me.bird.heroku.manager.QiNiuManager;
+import me.bird.heroku.qiniu.QiNiuManager;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class TestQiNiuManager {
 	@Test
 	public void test_post() throws Exception{
 		byte[] data = Resources.toByteArray(Resources.getResource("image/disney.png"));
-		System.out.println(qiNiuManager.postData(data, "a/b/3.png"));
+		System.out.println(qiNiuManager.postData(data, "a/b/4.png"));
 	}
 	
 	@Test
@@ -23,7 +23,7 @@ public class TestQiNiuManager {
 	
 	@Test
 	public void test_get_stat() throws Exception{
-		System.out.println(qiNiuManager.getResourceStat("a-b-3.png"));
+		System.out.println(qiNiuManager.getSingleStat("a-b-3.png"));
 	}
 	
 }
