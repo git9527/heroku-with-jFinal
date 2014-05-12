@@ -30,13 +30,13 @@ public class NovelController extends Controller {
 			super.render("feisu/chapter.ftl");
 		}
 	}
-	
-	private void catchBook(String bookId){
+
+	private void catchBook(String bookId) {
 		try {
 			String originContent = new HttpUtil().getContent("http://www.feisuzw.com/Html/" + bookId, BaseConsts.ENCODING_OF_FEISU);
 			String list = StringUtils.subStringBetween(originContent, "<div class=\"chapterlist\">", "</div>");
 			super.setAttr("bookName", StringUtils.subStringBetween(originContent, "index.aspx\" title=\"", "\">"));
-			super.setAttr("chapters", list.replace(".html", "").replace("href=\"", "href=\""+ bookId+"-"));
+			super.setAttr("chapters", list.replace(".html", "").replace("href=\"", "href=\"" + bookId + "-"));
 		} catch (Exception e) {
 			logger.error("抓取小说发生异常,bookId:{}", bookId, e);
 		}
@@ -44,7 +44,8 @@ public class NovelController extends Controller {
 
 	private void catchChapter(String bookId, String chapterId) {
 		try {
-			String originContent = new HttpUtil().getContent("http://www.feisuzw.com/Html/" + bookId + "/" + chapterId + ".html", BaseConsts.ENCODING_OF_FEISU);
+			String originContent = new HttpUtil().getContent("http://www.feisuzw.com/Html/" + bookId + "/" + chapterId + ".html",
+					BaseConsts.ENCODING_OF_FEISU);
 			ChapterInfo chapterInfo = new ChapterInfo();
 			chapterInfo.setBookId(Integer.valueOf(bookId));
 			chapterInfo.setChapterId(Integer.valueOf(chapterId));

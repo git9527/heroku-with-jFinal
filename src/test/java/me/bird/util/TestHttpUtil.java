@@ -14,9 +14,15 @@ public class TestHttpUtil {
 	private HttpUtil httpUtil = new HttpUtil();
 
 	@Test
-	public void test_get() throws Exception{
+	public void test_get_string() throws Exception{
 		String result = httpUtil.getContent("http://www.renren.com", BaseConsts.ENCODING);
 		Assert.assertNotNull(result);
+	}
+	
+	@Test
+	public void test_get_bytes() throws Exception{
+		byte[] bytes = httpUtil.getContentBytes("http://su.bdimg.com/static/superpage/img/logo_white.png");
+		System.out.println(bytes.length);
 	}
 	
 	@Test

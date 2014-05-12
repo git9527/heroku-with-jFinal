@@ -8,6 +8,15 @@ import java.nio.charset.Charset;
 public class IOUtils {
 
 	public static String toString(InputStream inputStream,String encoding) {
+		try {
+			Charset charset = Charset.forName(encoding);
+			return new String(toBytes(inputStream), charset);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static byte[] toBytes(InputStream inputStream){
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int i = -1;
 		try {
@@ -17,11 +26,6 @@ public class IOUtils {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		try {
-			Charset charset = Charset.forName(encoding);
-			return new String(baos.toByteArray(), charset);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+		return baos.toByteArray();
 	}
 }

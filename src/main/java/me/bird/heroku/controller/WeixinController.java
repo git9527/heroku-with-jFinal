@@ -16,11 +16,11 @@ public class WeixinController extends Controller {
 	public void index() {
 		String timestamp = super.getPara("timestamp");
 		String nonce = super.getPara("nonce");
-		if (StringUtils.isEmpty(timestamp)){
+		if (StringUtils.isEmpty(timestamp)) {
 			super.renderText("timestamp不能为空");
 			return;
 		}
-		if (StringUtils.isEmpty(nonce)){
+		if (StringUtils.isEmpty(nonce)) {
 			super.renderText("nonce不能为空");
 			return;
 		}

@@ -1,7 +1,5 @@
 package me.bird.heroku.qiniu;
 
-import me.bird.heroku.utils.StringUtils;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +17,7 @@ public class ResourceInfo extends QiNiuBaseResponse {
 	private String mimeType;
 
 	public ResourceInfo(QiNiuBaseResponse ret) {
+		super(ret);
 		if (ret.ok() && ret.getResponse() != null) {
 			try {
 				unmarshal(ret.getResponse());
@@ -27,15 +26,9 @@ public class ResourceInfo extends QiNiuBaseResponse {
 			}
 		}
 	}
-
-	public ResourceInfo(int code, String response) {
-		if (!StringUtils.isEmpty(response)) {
-			try {
-				unmarshal(response);
-			} catch (Exception e) {
-				this.exception = e;
-			}
-		}
+	
+	public boolean existInServer(){
+		return 200 == this.getStatusCode();
 	}
 
 	private void unmarshal(String json) throws JSONException {

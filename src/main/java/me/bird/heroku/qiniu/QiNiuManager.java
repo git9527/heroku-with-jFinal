@@ -80,7 +80,7 @@ public class QiNiuManager {
 			if (jsonObj.has("code") && jsonObj.has("data")) {
 				int code = jsonObj.getInt("code");
 				JSONObject body = jsonObj.getJSONObject("data");
-				ResourceInfo info = new ResourceInfo(code, body.toString());
+				ResourceInfo info = new ResourceInfo(new QiNiuBaseResponse(code, body.toString()));
 				list.add(info);
 			} else {
 				new JSONException("Bad BatchStat result!");

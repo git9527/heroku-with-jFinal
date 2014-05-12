@@ -12,27 +12,36 @@ import java.util.Map;
 
 public class HttpUtil {
 
+	private static String METHOD_GET = "GET";
+
+	private static String METHOD_POST = "POST";
+
+	public byte[] getContentBytes(String url) throws Exception {
+		HttpURLConnection connection = this.getConnection(url, METHOD_GET);
+		return this.getBytesResponseAndClose(connection);
+	}
+
 	public String getContent(String url, String encoding) throws Exception {
-		HttpURLConnection connection = this.getConnection(url, "GET");
-		return this.getResponseAndClose(connection, encoding);
+		HttpURLConnection connection = this.getConnection(url, METHOD_GET);
+		return this.getStringResponseAndClose(connection, encoding);
 	}
-	
-	public String getContent(String url, Map<String, String> headerMap,String encoding) throws Exception{
-		HttpURLConnection connection = this.getConnection(url, "GET", headerMap);
-		return this.getResponseAndClose(connection, encoding);
+
+	public String getContent(String url, Map<String, String> headerMap, String encoding) throws Exception {
+		HttpURLConnection connection = this.getConnection(url, METHOD_GET, headerMap);
+		return this.getStringResponseAndClose(connection, encoding);
 	}
-	
-	public String postContent(String url, Map<String, String> headerMap, String encoding) throws Exception{
-		HttpURLConnection connection = this.getConnection(url, "POST",headerMap);
+
+	public String postContent(String url, Map<String, String> headerMap, String encoding) throws Exception {
+		HttpURLConnection connection = this.getConnection(url, METHOD_POST, headerMap);
 		connection.connect();
-		return this.getResponseAndClose(connection, encoding);
+		return this.getStringResponseAndClose(connection, encoding);
 	}
 
 	public String postContent(String url, Map<String, String> headerMap, byte[] content, String encoding) throws Exception {
-		HttpURLConnection connection = this.getConnection(url, "POST", headerMap);
+		HttpURLConnection connection = this.getConnection(url, METHOD_POST, headerMap);
 		this.writeBytesToStream(connection.getOutputStream(), content);
 		connection.connect();
-		return this.getResponseAndClose(connection, encoding);
+		return this.getStringResponseAndClose(connection, encoding);
 	}
 
 	private HttpURLConnection getConnection(String url, String method, Map<String, String> headerMap) throws Exception {
@@ -65,7 +74,13 @@ public class HttpUtil {
 		dataOutputStream.close();
 	}
 
-	private String getResponseAndClose(HttpURLConnection connection, String encoding) throws IOException {
+	private byte[] getBytesResponseAndClose(HttpURLConnection connection) throws IOException {
+		byte[] bytes = IOUtils.toBytes(connection.getInputStream());
+		connection.disconnect();
+		return bytes;
+	}
+
+	private String getStringResponseAndClose(HttpURLConnection connection, String encoding) throws IOException {
 		String result = IOUtils.toString(connection.getInputStream(), encoding);
 		connection.disconnect();
 		return result;

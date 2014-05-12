@@ -34,7 +34,7 @@ public class TestQiNiuManager {
 	
 	@Test
 	public void test_batch_get_stat() throws Exception{
-		List<ResourceInfo> list = qiNiuManager.getBatchStat(Arrays.asList("a-b-3.png","a-b-4.png"));
+		List<ResourceInfo> list = qiNiuManager.getBatchStat(Arrays.asList("a-b-3.png","a-b-1.png"));
 		for (ResourceInfo resourceInfo : list) {
 			System.out.println(resourceInfo.getStatusCode());
 		}
