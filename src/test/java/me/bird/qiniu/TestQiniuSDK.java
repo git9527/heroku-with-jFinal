@@ -42,18 +42,17 @@ public class TestQiniuSDK {
 		Entry statRet = client.stat(BaseConsts.QINIU_SPACE_NAME, "a-b-3.png");
 		System.out.println(statRet);
 	}
-
+	
 	@Test
 	public void test_batch_stat() {
 		//op=/stat/emhhbmdzbjphLWItNC5wbmc=&op=/stat/emhhbmdzbjphLWItMy5wbmc=
-
 		//Authorization X4rXz25vYNuH5escSXCU2rxK_v-Zilv5lfLwfilH:47IarNwMU_ANW_p2tUmpfpA_XF0=
 		EntryPath aPath = new EntryPath();
 		aPath.bucket = BaseConsts.QINIU_SPACE_NAME;
-		aPath.key = "a-b-4.png";
+		aPath.key = "a-b-3.png";
 		EntryPath bPath = new EntryPath();
 		bPath.bucket = BaseConsts.QINIU_SPACE_NAME;
-		bPath.key = "a-b-2.png";
+		bPath.key = "a-b-4.png";
 		List<EntryPath> list = Arrays.asList(aPath, bPath);
 		BatchStatRet ret = client.batchStat(list);
 		System.out.println(ret);

@@ -17,11 +17,15 @@ public class DigestUtil {
 	}
 
 	public static byte[] hmacSha1(String data, String key) {
+		return hmacSha1(data.getBytes(), key);
+	}
+	
+	public static byte[] hmacSha1(byte[] data,String key){
 		try {
 			Mac mac = Mac.getInstance("HmacSHA1");
 			SecretKeySpec secret = new SecretKeySpec(key.getBytes(BaseConsts.ENCODING), "HmacSHA1");
 			mac.init(secret);
-			return mac.doFinal(data.getBytes());
+			return mac.doFinal(data);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
