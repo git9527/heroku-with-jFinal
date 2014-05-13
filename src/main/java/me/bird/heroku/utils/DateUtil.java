@@ -1,10 +1,8 @@
-package me.bird.util;
+package me.bird.heroku.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import me.bird.heroku.utils.StringUtils;
 
 public class DateUtil {
 

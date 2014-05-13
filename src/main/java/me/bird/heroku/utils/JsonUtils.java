@@ -27,21 +27,30 @@ public class JsonUtils {
 		if (field.getType().equals(List.class)){
 			ParameterizedType internalType = (ParameterizedType) field.getGenericType();
 			Class<?> internalClass = (Class<?>) internalType.getActualTypeArguments()[0];
-			JSONArray jsonArray = jsonObject.getJSONArray(this.getRealFieldName(field));
-			field.set(targetClass, this.getListFromJson(jsonArray, internalClass));
-		}else if (this.fieldIsSimple(field)){
-			field.set(targetClass, jsonObject.opt(this.getRealFieldName(field)));
+			Object object = jsonObject.opt(this.getRealFieldName(field));
+			if (object != null){
+				JSONArray jsonArray = (JSONArray) object;
+				field.set(targetClass, this.getListFromJson(jsonArray, internalClass));
+			}
+		}else {
+			Object object = jsonObject.opt(this.getRealFieldName(field));
+			if (null == object){
+				return;
+			} else if (field.getType().equals(Integer.class) || field.getType().equals(int.class)){
+				field.set(targetClass, Integer.valueOf(object.toString()));
+			} else if (field.getType().equals(Long.class) || field.getType().equals(long.class)){
+				field.set(targetClass, Long.valueOf(object.toString()));
+			} else if (field.getType().equals(Boolean.class) || field.getType().equals(boolean.class)){
+				field.set(targetClass, Boolean.valueOf(object.toString()));
+			} else {
+				field.set(targetClass, object);
+			}
 		}
 	}
 	
 	private String getRealFieldName(Field field){
 		JsonProperty annotation = field.getAnnotation(JsonProperty.class);
 		return (annotation == null)?field.getName():annotation.value();
-	}
-	
-	private boolean fieldIsSimple(Field field){
-		Class<?> clazz = field.getType();
-		return clazz.equals(String.class) || clazz.equals(boolean.class) || clazz.equals(int.class) || clazz.equals(long.class);
 	}
 	
 	@SuppressWarnings("unchecked")

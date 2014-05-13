@@ -1,18 +1,17 @@
 package me.bird.heroku.zhihu;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import me.bird.heroku.consts.BaseConsts;
+import me.bird.heroku.utils.DateUtil;
 import me.bird.heroku.utils.HttpUtil;
 import me.bird.heroku.utils.JsonUtils;
 import me.bird.heroku.utils.RandomUtil;
 import me.bird.heroku.utils.ResourceUtils;
 import me.bird.heroku.utils.StringUtils;
-import me.bird.util.DateUtil;
 
 public class ZhihuManager {
 
@@ -49,7 +48,7 @@ public class ZhihuManager {
 	}
 
 	public LastestNews getCompleteBeforeNews(String dayString) throws Exception {
-		String afterOneDay = DateUtil.getIntervalDateString(new Date(), "1D", DateUtil.yyyyMMdd);
+		String afterOneDay = DateUtil.getIntervalDateString(dayString, "1D", DateUtil.yyyyMMdd);
 		String jsonResult = httpUtil.getContent(BEFORE_NEWS_URL + afterOneDay, BaseConsts.ENCODING);
 		return new JsonUtils().fromJson(jsonResult, LastestNews.class);
 	}

@@ -7,32 +7,47 @@ import java.util.List;
 import java.util.Map;
 
 import me.bird.heroku.consts.BaseConsts;
+import me.bird.heroku.utils.DateUtil;
 import me.bird.heroku.utils.HttpUtil;
 import me.bird.heroku.utils.ResourceUtils;
 import me.bird.heroku.utils.StringUtils;
 import me.bird.heroku.zhihu.LastestNews;
 import me.bird.heroku.zhihu.News;
 import me.bird.heroku.zhihu.ZhihuManager;
-import me.bird.util.DateUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.jfinal.aop.Before;
+import com.jfinal.core.ActionKey;
 import com.jfinal.core.Controller;
-import com.jfinal.ext.interceptor.Restful;
 
-@Before(Restful.class)
-public class ZhiHuController extends Controller{
+public class ZhihuController extends Controller{
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	private ZhihuManager zhihuManager = new ZhihuManager();
 	
 	private ResourceUtils resourceUtils = new ResourceUtils();
+	
+	public void index(){
+		try {
+			LastestNews todayNews = zhihuManager.getCompleteLastestNews();
+			String yestoday = DateUtil.getIntervalDateString(new Date(),"-1D", DateUtil.yyyyMMdd);
+			LastestNews yestodayNews = zhihuManager.getCompleteBeforeNews(yestoday);
+			this.updateImageUrl(todayNews.getNews());
+			this.updateImageUrl(yestodayNews.getNews());
+			super.setAttr("newsList", Arrays.asList(todayNews,yestodayNews));
+			super.setAttr("before", yestoday);
+			Thread.sleep(100);
+		} catch (Exception e) {
+			logger.error("发生异常",e);
+		}
+		this.render("zhihu.ftl");
+	}
 
-	public String show(){
-		String date = super.getPara("date");
+	@ActionKey(value = "/zhihu/day")
+	public void day(){
+		String date = super.getPara(0);
 		try {
 			boolean isToday = date.equals(DateUtil.toString(new Date(),DateUtil.yyyyMMdd));
 			LastestNews lastestNews = zhihuManager.getCompleteBeforeNews(date);
@@ -49,45 +64,19 @@ public class ZhiHuController extends Controller{
 		} catch (Exception e) {
 			logger.error("发生异常",e);
 		}
-		return "zhihu/zhihu";
+		this.render("zhihu.ftl");
 	}
 	
-	public String today(){
-		try {
-			LastestNews todayNews = zhihuManager.getCompleteLastestNews();
-			String yestoday = DateUtil.getIntervalDateString(new Date(),"-1D", DateUtil.yyyyMMdd);
-			LastestNews yestodayNews = zhihuManager.getCompleteBeforeNews(yestoday);
-			this.updateImageUrl(todayNews.getNews());
-			this.updateImageUrl(yestodayNews.getNews());
-			super.setAttr("newsList", Arrays.asList(todayNews,yestodayNews));
-			super.setAttr("before", yestoday);
-			Thread.sleep(100);
-		} catch (Exception e) {
-			logger.error("发生异常",e);
-		}
-		return "zhihu/zhihu";
-	}
-	
-	private void updateImageUrl(List<News> newsList) throws Exception{
-		List<String> oldUrlList = new ArrayList<>();
-		for (News news : newsList) {
-			oldUrlList.add(news.getImage());
-		}
-		Map<String, String> map = resourceUtils.asyncGetNewUrl(oldUrlList);
-		for (News news : newsList) {
-			news.setImage(map.get(news.getImage()));
-		}
-	}
-
-	public void init() {
-		String id = super.getPara("id");
+	@ActionKey(value = "/zhihu/story")
+	public void story() {
+		String id = super.getPara(0);
 		try {
 			String originContent = new HttpUtil().getContent("http://daily.zhihu.com/story/" + id, BaseConsts.ENCODING);
 			String header = StringUtils.subStringBetween(originContent, "<body>", "<div class=\"main-wrap content-wrap\">");
 			originContent = StringUtils.remove(originContent, header);
 			String footer = StringUtils.subStringBetween(originContent, "<div class=\"qr\">", "<script src=");
 			originContent = StringUtils.remove(originContent, footer);
-			super.renderText(this.updateImageLocation(originContent));
+			super.renderText(this.updateImageLocation(originContent), "text/html");
 		} catch (Exception e) {
 			logger.error("抓取文章内容失败,id:{}", id, e);
 			super.renderText(e.getMessage());
@@ -107,6 +96,17 @@ public class ZhiHuController extends Controller{
 			logger.info("图片地址更新成功,原始地址:{},更新地址:{}", oldImageUrl, newImageUrl);
 		}
 		return originContent;
+	}
+	
+	private void updateImageUrl(List<News> newsList) throws Exception{
+		List<String> oldUrlList = new ArrayList<>();
+		for (News news : newsList) {
+			oldUrlList.add(news.getImage());
+		}
+		Map<String, String> map = resourceUtils.asyncGetNewUrl(oldUrlList);
+		for (News news : newsList) {
+			news.setImage(map.get(news.getImage()));
+		}
 	}
 	
 	private List<String> getImageList(String content,String start,String end){
