@@ -44,7 +44,7 @@ public class HttpUtil {
 		return this.getStringResponseAndClose(connection, encoding);
 	}
 
-	private HttpURLConnection getConnection(String url, String method, Map<String, String> headerMap) throws Exception {
+	public HttpURLConnection getConnection(String url, String method, Map<String, String> headerMap) throws Exception {
 		HttpURLConnection connection = this.getConnection(url, method);
 		for (String key : headerMap.keySet()) {
 			connection.addRequestProperty(key, headerMap.get(key));

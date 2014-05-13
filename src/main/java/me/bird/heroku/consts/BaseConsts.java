@@ -28,4 +28,6 @@ public class BaseConsts {
 	
 	public static String QINIU_SECRET_KEY = "GD6qojtiZExnhFuuYcHONLzs7xy3VUUcvX4Qzgm6";
 	
+	public static String QINIU_RESOURCE_DOMAIN = "http://zhangsn.qiniudn.com/";
+	
 }

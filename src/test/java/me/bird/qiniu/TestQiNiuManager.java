@@ -29,7 +29,7 @@ public class TestQiNiuManager {
 	
 	@Test
 	public void test_get_stat() throws Exception{
-		System.out.println(qiNiuManager.getSingleStat("a-b-3.png"));
+		System.out.println(qiNiuManager.getSingleStat("a-b-3-1.png"));
 	}
 	
 	@Test

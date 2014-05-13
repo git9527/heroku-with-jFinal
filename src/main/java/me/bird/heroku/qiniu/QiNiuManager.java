@@ -88,6 +88,19 @@ public class QiNiuManager {
 		}
 		return list;
 	}
+	
+	public boolean keyExist(String key){
+		try {
+			this.getSingleStat(key);
+			return true;
+		} catch (Exception e) {
+			if (StringUtils.containsIgnoreCase(e.getMessage(), "612")){
+				return false;
+			}else {
+				throw new RuntimeException(e);
+			}
+		}
+	}
 
 	public String getSingleStat(String key) throws Exception {
 		String completeUrl = STAT_HOST + "/stat/" + this.getEncodedKey(key);

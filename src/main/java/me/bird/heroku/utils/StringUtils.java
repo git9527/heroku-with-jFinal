@@ -20,15 +20,14 @@ public class StringUtils {
 		}
 		return false;
 	}
-	
-	static boolean regionMatches(CharSequence cs, boolean ignoreCase, int thisStart,
-            CharSequence substring, int start, int length)    {
-        if (cs instanceof String && substring instanceof String) {
-            return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);
-        } else {
-            return cs.toString().regionMatches(ignoreCase, thisStart, substring.toString(), start, length);
-        }
-    }
+
+	static boolean regionMatches(CharSequence cs, boolean ignoreCase, int thisStart, CharSequence substring, int start, int length) {
+		if (cs instanceof String && substring instanceof String) {
+			return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);
+		} else {
+			return cs.toString().regionMatches(ignoreCase, thisStart, substring.toString(), start, length);
+		}
+	}
 
 	public static boolean equals(String string1, String string2) {
 		return string1 == null ? string2 == null : string1.equals(string2);
@@ -58,8 +57,8 @@ public class StringUtils {
 
 	public static String subStringBetween(String source, String open, String close) {
 		if (source == null || open == null || close == null) {
-            return null;
-        }
+			return null;
+		}
 		int start = source.indexOf(open);
 		if (start != INDEX_NOT_FOUND) {
 			int end = source.indexOf(close, start + open.length());
@@ -123,7 +122,48 @@ public class StringUtils {
 		}
 	}
 
+	public static String capitalize(String str) {
+		int strLen;
+		if (str == null || (strLen = str.length()) == 0) {
+			return str;
+		}
+		return new StringBuilder(strLen).append(Character.toTitleCase(str.charAt(0))).append(str.substring(1)).toString();
+	}
+
 	public static boolean isEmpty(String source) {
 		return source == null || "".equals(source);
 	}
+
+	public static String replace(String text, String searchString, String replacement, int max) {
+		if (isEmpty(text) || isEmpty(searchString) || replacement == null || max == 0) {
+			return text;
+		}
+		int start = 0;
+		int end = text.indexOf(searchString, start);
+		if (end == INDEX_NOT_FOUND) {
+			return text;
+		}
+		int replLength = searchString.length();
+		int increase = replacement.length() - replLength;
+		increase = increase < 0 ? 0 : increase;
+		increase *= max < 0 ? 16 : max > 64 ? 64 : max;
+		StringBuilder buf = new StringBuilder(text.length() + increase);
+		while (end != INDEX_NOT_FOUND) {
+			buf.append(text.substring(start, end)).append(replacement);
+			start = end + replLength;
+			if (--max == 0) {
+				break;
+			}
+			end = text.indexOf(searchString, start);
+		}
+		buf.append(text.substring(start));
+		return buf.toString();
+	}
+	
+    public static String remove(String str, String remove) {
+        if (isEmpty(str) || isEmpty(remove)) {
+            return str;
+        }
+        return replace(str, remove, "", -1);
+    }
 }
