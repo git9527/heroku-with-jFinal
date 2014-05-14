@@ -12,7 +12,7 @@ public class TestStringUtils {
 		Assert.assertEquals("teststring", StringUtils.subStringBefore("teststringzhangsn", "zhangsn"));
 		Assert.assertEquals(null, StringUtils.subStringBefore(null, "zhangsn"));
 		Assert.assertEquals(null, StringUtils.subStringBefore("", "zhangsn"));
-		Assert.assertEquals(null, StringUtils.subStringBefore("teststringzhangsn", "notExist"));
+		Assert.assertEquals("teststringzhangsn", StringUtils.subStringBefore("teststringzhangsn", "notExist"));
 	}
 	
 	@Test
@@ -20,7 +20,7 @@ public class TestStringUtils {
 		Assert.assertEquals("zhangsn", StringUtils.subStringAfter("teststringzhangsn", "string"));
 		Assert.assertEquals(null, StringUtils.subStringBefore(null, "zhangsn"));
 		Assert.assertEquals(null, StringUtils.subStringBefore("", "zhangsn"));
-		Assert.assertEquals(null, StringUtils.subStringBefore("teststringzhangsn", "notExist"));
+		Assert.assertEquals("teststringzhangsn", StringUtils.subStringBefore("teststringzhangsn", "notExist"));
 	}
 	
 	@Test

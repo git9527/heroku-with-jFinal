@@ -7,10 +7,12 @@ import me.bird.heroku.qiniu.QiNiuManager;
 import me.bird.heroku.qiniu.ResourceInfo;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.io.Resources;
 
+@Ignore
 public class TestQiNiuManager {
 	
 	private QiNiuManager qiNiuManager = new QiNiuManager();
