@@ -37,7 +37,7 @@ public class CatchTask implements Runnable {
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put("Referer", refererUrl);
 		headerMap.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-		String postContent = "bookid=" + chapterInfo.getBookId() + "&chapterid" + chapterInfo.getChapterId();
+		String postContent = "bookid=" + chapterInfo.getBookId() + "&chapterid=" + chapterInfo.getChapterId();
 		String result = new HttpUtil().postContent(this.getContentUrl(), headerMap, postContent.getBytes(), BaseConsts.ENCODING);
 		return StringUtils.subStringBeforeLast(result, "看无广告");
 	}

@@ -27,7 +27,7 @@ public class TestHttpUtil {
 	
 	@Test
 	public void test_post() throws Exception{
-		String url = "http://www.feisuzw.com/skin/hongxiu/include/fe1sushow.php?r=bpbdmoidbppdkoge";
+		String url = "http://www.feisuzw.com/skin/hongxiu/include/fe1sushow.php?r=6POph1LGqVoRf3ERlNbiip";
 		String referer = "http://www.feisuzw.com/Html/3195/2896318.html";
 		Map<String, String> headerMap = new HashMap<>();
 		headerMap.put("Referer", referer);
