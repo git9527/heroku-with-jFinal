@@ -5,6 +5,7 @@ import java.util.Set;
 import me.bird.heroku.consts.BaseConsts;
 import me.bird.heroku.utils.ClassLoaderUtil;
 import me.bird.heroku.utils.StringUtils;
+import me.bird.heroku.utils.SystemUtils;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -14,13 +15,14 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Controller;
 import com.jfinal.ext.handler.ContextPathHandler;
-import com.jfinal.ext.handler.UrlSkipHandler;
 
 public class DefaultConfig extends JFinalConfig {
 
     @Override
     public void configConstant(Constants me) {
-        me.setDevMode(true);
+    	if (SystemUtils.isLocalDev()){
+    		me.setDevMode(true);
+    	}
         me.setFreeMarkerViewExtension(".ftl");
         me.setBaseViewPath("templates");
     }
@@ -46,7 +48,7 @@ public class DefaultConfig extends JFinalConfig {
     @Override
     public void configHandler(Handlers me) {
     	me.add(new ContextPathHandler("contextPath"));
-    	me.add(new UrlSkipHandler(".+\\.\\w{1,4}", false));
+    	me.add(new ResourceHander());
     }
 }
 

@@ -76,7 +76,7 @@ public class ZhihuController extends Controller{
 			originContent = StringUtils.remove(originContent, header);
 			String footer = StringUtils.subStringBetween(originContent, "<div class=\"qr\">", "<script src=");
 			originContent = StringUtils.remove(originContent, footer);
-			super.renderText(this.updateImageLocation(originContent), "text/html");
+			super.renderHtml(this.updateImageLocation(originContent));
 		} catch (Exception e) {
 			logger.error("抓取文章内容失败,id:{}", id, e);
 			super.renderText(e.getMessage());

@@ -24,6 +24,16 @@ public class TestStringUtils {
 	}
 	
 	@Test
+	public void test_sub_string_after_last(){
+		Assert.assertEquals("11.css", StringUtils.subStringAfterLast("http://127.0.0.1:8080/heroku/resources/css/11.css", "/"));
+	}
+	
+	@Test
+	public void test_sub_string_before_last(){
+		Assert.assertEquals("http://127.0.0.1:8080/heroku/resources/css", StringUtils.subStringBeforeLast("http://127.0.0.1:8080/heroku/resources/css/11.css", "/"));
+	}
+	
+	@Test
 	public void test_sub_string_between(){
 		Assert.assertEquals("string", StringUtils.subStringBetween("teststringzhangsn","st","zhangsn"));
 		Assert.assertEquals(null, StringUtils.subStringBetween(null, "zhangsn",null));

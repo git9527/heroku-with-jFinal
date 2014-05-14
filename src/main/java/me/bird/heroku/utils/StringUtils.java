@@ -112,14 +112,17 @@ public class StringUtils {
 	}
 
 	public static String subStringAfterLast(String source, String target) {
-		if (isEmpty(source))
-			return source;
-		int index = source.indexOf(target);
-		if (INDEX_NOT_FOUND == index) {
-			return null;
-		} else {
-			return source.substring(index + target.length(), source.length());
-		}
+		if (isEmpty(source)) {
+            return source;
+        }
+        if (isEmpty(target)) {
+            return "";
+        }
+        int pos = source.lastIndexOf(target);
+        if (pos == INDEX_NOT_FOUND || pos == source.length() - target.length()) {
+            return "";
+        }
+        return source.substring(pos + target.length());
 	}
 
 	public static String capitalize(String str) {
