@@ -1,5 +1,7 @@
 package me.bird.heroku.utils;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,25 @@ public class ResourceUtils {
 	public String syncGetNewUrl(String oldUrl) {
 		new CatchTask(oldUrl).run();
 		return this.getNewUrl(oldUrl);
+	}
+	
+	public static String getStringContent(String type, String key) {
+		return new String(getByteContent(type, key), BaseConsts.CHARSET);
+	}
+
+	public static byte[] getByteContent(String type, String key) {
+		String path = ResourceUtils.class.getClassLoader().getResource("").getPath();
+		if (SystemUtils.isLocalDev()) {
+			path = path + "../../src/main/webapp/resources/" + type + "/" + key;
+		} else {
+			path = path + "../../resources/" + type + "/" + key;
+		}
+		try {
+			FileInputStream inputStream = new FileInputStream(path);
+			return IOUtils.toBytes(inputStream);
+		} catch (FileNotFoundException e) {
+			return null;
+		}
 	}
 
 	class CatchTask implements Runnable {
