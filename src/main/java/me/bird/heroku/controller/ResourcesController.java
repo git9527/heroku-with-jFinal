@@ -27,7 +27,7 @@ public class ResourcesController extends Controller {
 			super.renderText(content, "text/css;charset=utf-8");
 		}
 	}
-
+	
 	@ActionKey("/resources/js")
 	public void js() {
 		String content = ResourceUtils.getStringContent("js", this.getKey());

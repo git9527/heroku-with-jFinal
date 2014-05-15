@@ -1,6 +1,7 @@
 package me.bird.heroku.consts;
 
 import java.nio.charset.Charset;
+import java.util.Date;
 
 public class BaseConsts {
 
@@ -29,5 +30,7 @@ public class BaseConsts {
 	public static String QINIU_SECRET_KEY = "GD6qojtiZExnhFuuYcHONLzs7xy3VUUcvX4Qzgm6";
 	
 	public static String QINIU_RESOURCE_DOMAIN = "http://zhangsn.qiniudn.com/";
+	
+	public static Date START_TIME = new Date();
 	
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<#import "/templates/common.ftl" as app>
+<#include "/templates/common.ftl">
 <title>知乎日报 - 满足你的好奇心</title>
 <link type="text/css" rel="stylesheet" href="${contextPath}/resources/css/zhihu.css" />
 </head>
