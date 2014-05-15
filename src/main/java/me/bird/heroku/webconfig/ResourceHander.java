@@ -1,4 +1,4 @@
-package me.bird.heroku.config;
+package me.bird.heroku.webconfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

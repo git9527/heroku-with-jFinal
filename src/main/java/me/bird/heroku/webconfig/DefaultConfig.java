@@ -1,4 +1,4 @@
-package me.bird.heroku.config;
+package me.bird.heroku.webconfig;
 
 import java.util.Set;
 
