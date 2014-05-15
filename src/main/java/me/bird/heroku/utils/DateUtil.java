@@ -3,7 +3,6 @@ package me.bird.heroku.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class DateUtil {
 
@@ -45,7 +44,7 @@ public class DateUtil {
 		if (StringUtils.isEmpty(dateString))
 			return null;
 		try {
-			return new SimpleDateFormat(format, Locale.CHINA).parse(dateString);
+			return new SimpleDateFormat(format).parse(dateString);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -53,7 +52,7 @@ public class DateUtil {
 
 	public static String toString(Date date, String format) {
 		try {
-			return new SimpleDateFormat(format, Locale.CHINA).format(date);
+			return new SimpleDateFormat(format).format(date);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
