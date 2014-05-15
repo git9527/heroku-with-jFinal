@@ -40,4 +40,10 @@ public class TestStringUtils {
 		Assert.assertEquals(null, StringUtils.subStringBetween("", null,"zhangsn"));
 		Assert.assertEquals(null, StringUtils.subStringBetween("teststringzhangsn", "notExist",null));
 	}
+	
+	@Test
+	public void test_equals(){
+		Assert.assertTrue(StringUtils.equals("test", "test"));
+		Assert.assertTrue(StringUtils.equals("test", new String("test")));
+	}
 }

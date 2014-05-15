@@ -1,13 +1,10 @@
 package me.bird.heroku.controller;
 
-import java.util.Arrays;
+import me.bird.heroku.utils.StringUtils;
+import me.bird.heroku.weixin.WeixinManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import me.bird.heroku.consts.BaseConsts;
-import me.bird.heroku.encode.DigestUtil;
-import me.bird.heroku.utils.StringUtils;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -17,6 +14,8 @@ import com.jfinal.ext.interceptor.Restful;
 public class WeixinController extends Controller {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	private WeixinManager weixinManager = new WeixinManager();
 
 	public void index() {
 		String timestamp = super.getPara("timestamp");
@@ -28,8 +27,8 @@ public class WeixinController extends Controller {
 			super.renderText("微信平台签名消息验证失败！,参数不完整");
 			return;
 		}
-		String result =  this.sign(timestamp, nonce);
-		if (StringUtils.equals(echostr,result)){
+		String result =  weixinManager.checkAuthentication(timestamp, nonce);
+		if (StringUtils.equals(signature,result)){
 			super.renderText(echostr);
 			logger.info("微信平台签名消息验证成功！");
 		}else {
@@ -37,19 +36,6 @@ public class WeixinController extends Controller {
 			super.renderText("微信平台签名消息验证失败");
 		}
 
-	}
-
-	private String sign(String timestamp, String nonce) {
-		// 将获取到的参数放入数组
-		String[] ArrTmp = { BaseConsts.WEIXIN_TOKEN, timestamp, nonce };
-		// 按微信提供的方法，对数据内容进行排序
-		Arrays.sort(ArrTmp);
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < ArrTmp.length; i++) {
-			sb.append(ArrTmp[i]);
-		}
-		// 对排序后的字符串进行SHA-1加密
-		return DigestUtil.sha1Hex(sb.toString());
 	}
 
 	public void save() {
