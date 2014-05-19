@@ -12,4 +12,9 @@ public class IndexController extends Controller{
 	public void index(){
 		super.renderHtml("启动时间:" + DateUtil.toString(BaseConsts.START_TIME, DateUtil.yyyy_MM_dd_HH_mm_ss));
 	}
+	
+	@ActionKey("/angular")
+	public void angular(){
+		super.render("angular.ftl");
+	}
 }

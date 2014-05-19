@@ -38,7 +38,6 @@ public class ZhihuController extends Controller {
 			this.updateImageUrl(yestodayNews.getNews());
 			super.setAttr("newsList", Arrays.asList(todayNews, yestodayNews));
 			super.setAttr("before", yestoday);
-			Thread.sleep(100);
 		} catch (Exception e) {
 			logger.error("发生异常", e);
 		}
