@@ -31,6 +31,7 @@ public class ZhihuController extends Controller {
 
 	public void index() {
 		try {
+			long start = System.currentTimeMillis();
 			LastestNews todayNews = zhihuManager.getCompleteLastestNews();
 			String yestoday = DateUtil.getIntervalDateString(new Date(), "-1D", DateUtil.yyyyMMdd);
 			LastestNews yestodayNews = zhihuManager.getCompleteBeforeNews(yestoday);
@@ -38,6 +39,7 @@ public class ZhihuController extends Controller {
 			this.updateImageUrl(yestodayNews.getNews());
 			super.setAttr("newsList", Arrays.asList(todayNews, yestodayNews));
 			super.setAttr("before", yestoday);
+			logger.info("调用接口组装数据完成,共耗时:{}ms", System.currentTimeMillis() - start);
 		} catch (Exception e) {
 			logger.error("发生异常", e);
 		}

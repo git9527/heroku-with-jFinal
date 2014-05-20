@@ -20,9 +20,10 @@ public class RenderingTimeHandler extends Handler {
 
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-        long start = System.currentTimeMillis();
+    	long start = System.currentTimeMillis();
         String userAgent = request.getHeader("User-Agent");
         nextHandler.handle(target, request, response, isHandled);
+        if (target.contains(".")) return;
         long end = System.currentTimeMillis();
         logger.info("User-Agent:["+ userAgent + "]\tURL:["+ target + "]\tTRENDING TIME:\t[" + (end - start) + "]ms");
     }

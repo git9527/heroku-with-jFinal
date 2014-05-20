@@ -7,7 +7,6 @@ import me.bird.heroku.handler.RenderingTimeHandler;
 import me.bird.heroku.handler.ResourceHander;
 import me.bird.heroku.utils.ClassLoaderUtil;
 import me.bird.heroku.utils.StringUtils;
-import me.bird.heroku.utils.SystemUtils;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -22,10 +21,9 @@ public class DefaultConfig extends JFinalConfig {
 
     @Override
     public void configConstant(Constants me) {
-    	if (SystemUtils.isLocalDev()){
-    		me.setDevMode(true);
-    	}
-        me.setFreeMarkerViewExtension(".ftl");
+//    	if (SystemUtils.isLocalDev()){
+//    		me.setDevMode(true);
+//    	}
         me.setBaseViewPath("templates");
     }
 
