@@ -3,8 +3,8 @@ package me.bird.qiniu;
 import java.util.Arrays;
 import java.util.List;
 
-import me.bird.heroku.consts.BaseConsts;
-import me.bird.heroku.utils.SystemUtils;
+import me.bird.consts.BaseConsts;
+import me.bird.utils.SystemUtils;
 
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;

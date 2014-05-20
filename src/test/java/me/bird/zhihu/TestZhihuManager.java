@@ -1,8 +1,8 @@
 package me.bird.zhihu;
 
-import me.bird.heroku.zhihu.LastestNews;
-import me.bird.heroku.zhihu.News;
-import me.bird.heroku.zhihu.ZhihuManager;
+import me.bird.zhihu.LastestNews;
+import me.bird.zhihu.News;
+import me.bird.zhihu.ZhihuManager;
 
 import org.junit.Test;
 

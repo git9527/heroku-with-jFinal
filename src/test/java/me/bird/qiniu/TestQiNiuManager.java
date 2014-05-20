@@ -3,8 +3,8 @@ package me.bird.qiniu;
 import java.util.Arrays;
 import java.util.List;
 
-import me.bird.heroku.qiniu.QiNiuManager;
-import me.bird.heroku.qiniu.ResourceInfo;
+import me.bird.qiniu.QiNiuManager;
+import me.bird.qiniu.ResourceInfo;
 
 import org.junit.Assert;
 import org.junit.Ignore;

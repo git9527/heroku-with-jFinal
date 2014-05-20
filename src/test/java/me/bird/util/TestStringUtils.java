@@ -1,6 +1,6 @@
 package me.bird.util;
 
-import me.bird.heroku.utils.StringUtils;
+import me.bird.utils.StringUtils;
 
 import org.junit.Assert;
 import org.junit.Test;

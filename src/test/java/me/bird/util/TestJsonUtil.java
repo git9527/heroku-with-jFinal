@@ -1,8 +1,8 @@
 package me.bird.util;
 
-import me.bird.heroku.consts.BaseConsts;
-import me.bird.heroku.utils.JsonUtils;
-import me.bird.heroku.zhihu.LastestNews;
+import me.bird.consts.BaseConsts;
+import me.bird.utils.JsonUtils;
+import me.bird.zhihu.LastestNews;
 
 import org.junit.Assert;
 import org.junit.Test;

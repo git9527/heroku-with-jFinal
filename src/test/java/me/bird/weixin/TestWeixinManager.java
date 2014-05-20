@@ -3,7 +3,7 @@ package me.bird.weixin;
 import org.junit.Assert;
 import org.junit.Test;
 
-import me.bird.heroku.weixin.WeixinManager;
+import me.bird.weixin.WeixinManager;
 
 public class TestWeixinManager {
 

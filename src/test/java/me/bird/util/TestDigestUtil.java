@@ -1,6 +1,6 @@
 package me.bird.util;
 
-import me.bird.heroku.encode.DigestUtil;
+import me.bird.encode.DigestUtil;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Assert;
