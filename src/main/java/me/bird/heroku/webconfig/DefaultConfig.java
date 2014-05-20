@@ -3,6 +3,8 @@ package me.bird.heroku.webconfig;
 import java.util.Set;
 
 import me.bird.heroku.consts.BaseConsts;
+import me.bird.heroku.handler.RenderingTimeHandler;
+import me.bird.heroku.handler.ResourceHander;
 import me.bird.heroku.utils.ClassLoaderUtil;
 import me.bird.heroku.utils.StringUtils;
 import me.bird.heroku.utils.SystemUtils;
@@ -48,6 +50,7 @@ public class DefaultConfig extends JFinalConfig {
     @Override
     public void configHandler(Handlers me) {
     	me.add(new ContextPathHandler("contextPath"));
+    	me.add(new RenderingTimeHandler());
     	me.add(new ResourceHander());
     }
 }
