@@ -7,7 +7,7 @@ public class BaseConsts {
 
 	public static String CONTROLLER_SUFFIX = "Controller";
 	
-	public static String CONTROLLER_BASE_PACKAGE = "me.bird.heroku.controller";
+	public static String CONTROLLER_BASE_PACKAGE = "me.bird.controller";
 	
 	public static String WEIXIN_TOKEN = "zhangsnWeiXinToken";
 	
